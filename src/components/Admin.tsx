@@ -31,7 +31,7 @@ const Admin: React.FC = () => {
 
       try {
         const response = await getAdminData(token);
-        setAdminData(response);
+        setAdminData(response.data);
       } catch (err) {
         setError("Failed to fetch admin data");
       } finally {
@@ -61,7 +61,7 @@ const Admin: React.FC = () => {
           </div>
           <div className="reports">
             <h3>Reports</h3>
-            {adminData.reports.length > 0 ? (
+            {adminData.reports && adminData.reports.length > 0 ? (
               adminData.reports.map((report) => (
                 <div key={report.id} className="report-card">
                   <h4>{report.title}</h4>
