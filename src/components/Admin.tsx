@@ -1,40 +1,81 @@
-// src/components/Admin.tsx
 import React, { useEffect, useState } from "react";
 import { getAdminData } from "../services/api";
+import "../styles/Admin.css";
 
-const Admin = () => {
-  const [adminData, setAdminData] = useState<any>(null);
+interface Report {
+  id: number;
+  title: string;
+  status: string;
+}
+
+interface AdminData {
+  name: string;
+  email: string;
+  reports: Report[];
+}
+
+const Admin: React.FC = () => {
+  const [adminData, setAdminData] = useState<AdminData | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchAdminData = async () => {
       const token = localStorage.getItem("token");
       if (!token) {
         setError("User is not authenticated");
+        setLoading(false);
         return;
       }
 
       try {
         const response = await getAdminData(token);
-        console.log("GG ADMIN RESPONSE", response);
-        setAdminData(response);
+        setAdminData(response.data);
       } catch (err) {
         setError("Failed to fetch admin data");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchAdminData();
   }, []);
 
-  if (error) return <div>{error}</div>;
+  if (loading) return <div className="loading-spinner"></div>;
+  if (error) return <div className="error-message">{error}</div>;
 
   return (
-    <div>
-      <h1>Admin Data</h1>
+    <div className="admin-container">
+      <h2>Admin Dashboard</h2>
       {adminData ? (
-        <pre>{JSON.stringify(adminData, null, 2)}</pre>
+        <div className="admin-content">
+          <div className="admin-info">
+            <h3>Admin Information</h3>
+            <p>
+              <strong>Name:</strong> {adminData.name}
+            </p>
+            <p>
+              <strong>Email:</strong> {adminData.email}
+            </p>
+          </div>
+          <div className="reports">
+            <h3>Reports</h3>
+            {adminData.reports && adminData.reports.length > 0 ? (
+              adminData.reports.map((report) => (
+                <div key={report.id} className="report-card">
+                  <h4>{report.title}</h4>
+                  <p>
+                    <strong>Status:</strong> {report.status}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p>No reports available</p>
+            )}
+          </div>
+        </div>
       ) : (
-        <p>Loading...</p>
+        <p>No data available</p>
       )}
     </div>
   );

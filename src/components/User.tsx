@@ -1,4 +1,3 @@
-// src/components/User.tsx
 import React, { useEffect, useState } from "react";
 import { getUserData } from "../services/api";
 import "../styles/User.css";
