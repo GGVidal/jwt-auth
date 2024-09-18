@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { getAdminData } from "../services/api";
+import { AuthContext } from "../context/AuthContext";
 import "../styles/Admin.css";
 
 interface Report {
@@ -15,13 +16,13 @@ interface AdminData {
 }
 
 const Admin: React.FC = () => {
+  const { token } = useContext(AuthContext) || {};
   const [adminData, setAdminData] = useState<AdminData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchAdminData = async () => {
-      const token = localStorage.getItem("token");
       if (!token) {
         setError("User is not authenticated");
         setLoading(false);
@@ -30,7 +31,7 @@ const Admin: React.FC = () => {
 
       try {
         const response = await getAdminData(token);
-        setAdminData(response.data);
+        setAdminData(response);
       } catch (err) {
         setError("Failed to fetch admin data");
       } finally {
@@ -39,7 +40,7 @@ const Admin: React.FC = () => {
     };
 
     fetchAdminData();
-  }, []);
+  }, [token]);
 
   if (loading) return <div className="loading-spinner"></div>;
   if (error) return <div className="error-message">{error}</div>;
@@ -60,7 +61,7 @@ const Admin: React.FC = () => {
           </div>
           <div className="reports">
             <h3>Reports</h3>
-            {adminData.reports && adminData.reports.length > 0 ? (
+            {adminData.reports.length > 0 ? (
               adminData.reports.map((report) => (
                 <div key={report.id} className="report-card">
                   <h4>{report.title}</h4>
