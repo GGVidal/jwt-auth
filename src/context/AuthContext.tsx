@@ -9,7 +9,7 @@ export const AuthContext = createContext<AuthContextProps | undefined>(
   undefined
 );
 
-export const AuthProvider: React.FC = ({ children }) => {
+export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {

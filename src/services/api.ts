@@ -1,16 +1,21 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://api-onecloud.multicloud.tivit.com/fake",
+  baseURL: "http://localhost:3000",
   headers: {
     "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": true,
   },
 });
 
 export const login = async (username: string, password: string) => {
-  const response = await api.post("/token", null, {
-    params: { username, password },
-  });
+  const response = await api.post(
+    "/login",
+    {},
+    {
+      params: { username, password },
+    }
+  );
   return response.data;
 };
 

@@ -1,18 +1,11 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { Route, Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
-const ProtectedRoute = ({ component: Component, ...rest }) => {
+const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { token } = useContext(AuthContext);
 
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        token ? <Component {...props} /> : <Redirect to="/login" />
-      }
-    />
-  );
+  return token ? children : <Navigate to="/login" />;
 };
 
 export default ProtectedRoute;
