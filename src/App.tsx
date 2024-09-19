@@ -6,8 +6,8 @@ import {
   Navigate,
 } from "react-router-dom";
 import Login from "./components/Login";
-import User from "./components/User";
-import Admin from "./components/Admin";
+import User from "./pages/User/User";
+import Admin from "./pages/Admin/Admin";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 

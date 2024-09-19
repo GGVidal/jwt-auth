@@ -1,19 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
-import { getAdminData } from "../services/api";
-import { AuthContext } from "../context/AuthContext";
-import "../styles/Admin.css";
-
-interface Report {
-  id: number;
-  title: string;
-  status: string;
-}
-
-interface AdminData {
-  name: string;
-  email: string;
-  reports: Report[];
-}
+import { getAdminData } from "../../services/api";
+import { AuthContext } from "../../context/AuthContext";
+import "./style.css";
+import { AdminData } from "./types";
 
 const Admin: React.FC = () => {
   const { token } = useContext(AuthContext) || {};

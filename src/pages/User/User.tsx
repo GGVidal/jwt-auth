@@ -1,19 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
-import { getUserData } from "../services/api";
-import { AuthContext } from "../context/AuthContext";
-import "../styles/User.css";
-
-interface Purchase {
-  id: number;
-  item: string;
-  price: number;
-}
-
-interface UserData {
-  name: string;
-  email: string;
-  purchases: Purchase[];
-}
+import { getUserData } from "../../services/api";
+import { AuthContext } from "../../context/AuthContext";
+import "./style.css";
+import { UserData } from "./types";
 
 const User: React.FC = () => {
   const { token } = useContext(AuthContext) || {};
