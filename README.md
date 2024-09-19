@@ -1,5 +1,11 @@
 ## Available Scripts
 
-In the project directory, you can run:
+In the project directory, you can run this in your terminal:
 
-### `npm run install:all && npm start` or `yarn install:all && yarn start`
+## `NPM`
+
+### `npm run install:all && npm start`
+
+## `YARN`
+
+### `yarn install:all && yarn start`
